@@ -20,9 +20,15 @@
   + Application
   + Database
 
-## 3. Các level caching
+## 3. Các câu hỏi cần giải đáp khi caching:
+- Cache cái gì ?
+- Cache ở đâu?
+- Cache trong bao lâu?
 
-### 3.1 Level 1 : Một web monolith với 1 server
+
+## 4. Các level caching
+
+### 4.1 Level 1 : Một web monolith với 1 server
 - Một web monolith, chạy trên 1 server, render data html chủ yếu là các trang tin tức, crud, Data còn khá nhỏ
 - Những điều làm cho web bị chậm:
   + một trang html có thể được gender bởi 10-40 query DB, độ trễ 2-3s
@@ -31,3 +37,14 @@
 - Cách tối ưu:
   + ![1.png](../img_guide/1.png)
   + ![2.png](../img_guide/2.png)
+  
+- Cụ thể như sau:
+  + Cache html, css, js  bằng file
+  + Cache 1 phần trang html hoặc toàn bộ trang html bằng file
+  + Cache media bằng CDN
+  + Bật tính năng query cache trong DB
+
+  
+3.2 Level 2: Một web monolith với nhiều server
+- Cache data object và html template  bằng kho lưu trữ thứ 3
+- 
