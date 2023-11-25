@@ -28,17 +28,19 @@
 
 ## 4. Các level caching
 
-### 4.1 Level 1 : Một web monolith với 1 server
-- Một web monolith, chạy trên 1 server, render data html chủ yếu là các trang tin tức, crud, Data còn khá nhỏ
-- Những điều làm cho web bị chậm:
-  + một trang html có thể được gender bởi 10-40 query DB, độ trễ 2-3s
-  + Media data (image/video) trên trang load chậm làm trang bị trắng 2-10s
 
-- Cách tối ưu:
+### 4.1 Level 1 : Một web monolith với 1 server
+- Bài toán:
+  + Một web monolith, chạy trên 1 server, render data html chủ yếu là các trang tin tức, crud, Data còn khá nhỏ
+  + Những điều làm cho web bị chậm:
+    + Một trang html có thể được gender bởi 10-40 query DB, độ trễ 2-3s
+    + Media data (image/video) trên trang load chậm làm trang bị trắng 2-10s
+
+- Phương án dùng cache:
   + ![1.png](../img_guide/1.png)
   + ![2.png](../img_guide/2.png)
   
-- Cụ thể như sau:
+- Cụ thể các tầng layer như sau:
   + Cache html, css, js  bằng file
   + Cache 1 phần trang html hoặc toàn bộ trang html bằng file
   + Cache media bằng CDN
@@ -46,5 +48,27 @@
 
   
 3.2 Level 2: Một web monolith với nhiều server
-- Cache data object và html template  bằng kho lưu trữ thứ 3
-- 
+- Bài toán 
+  + Một web monolith, chạy trên nhiều server, do đó sai kahcs data giữa các server khi dùng file cache cần phải được giải quyết
+  + Lượng trafic cao  -> Cần phải focus mạnh và cache toàn trang để giảm gánh nặng DB và APP
+  + Lượng dữ liệu  lớn hơn, nhưng cấu hình DB thì nhỏ
+  + Có hệ thống proxy/LB đứng phía trước
+  
+- Phương án dùng cache:
+  + ![4.png](../img_guide/4.png)
+  + ![3.png](../img_guide/3.png)
+
+- Cụ thể cache các tầng layer như sau:
+  + Cache data object và html template bằng storage thứ 3
+  + Cache thêm static asset trên CDN
+  + Cache toàn bộ trang trên Reverse Proxy (nginx, hadoop)
+
+
+3.3 Level 3 : Web API cùng với SPA
+- Bài toán: 
+  + Ứng dụng mở rộng tới mobile và web Single Page App
+  + SinglePageApp chứa toàn bộ html, js, css của ứng dụng và có thể triển khai dạng tĩnh
+  + Web API chỉ chứa data, do đó application không mất resource để render html template
+  + Client phải gọi nhiều request tới server hơn
+  + 
+
