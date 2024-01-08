@@ -46,3 +46,25 @@ CREATE TABLE IF NOT EXISTS engineer
 - Kết quả:
   ![5.png](/img_guide/5.png)
 ## 2. Explain Query
+
+### 2.1 Explain
+```roomsql
+    EXPLAIN SELECT * FROM ENGINEER;
+```
+![6.png](/img_guide/6.png)
+
++ cost: Số lượng tính toán cần để hoàn thành, Hiểu đơn giản là 0 đến 2117
++ rows: Số lượng rows mà Postgess nghĩ rằng cần scan để thực hiện query
++ width: Độ rộng trung bình của mỗi row khi thực hiện query (đơn vị byte)
+
+
+### 2.2 Explain analyze:
+- Explain chỉ đưa ra thông số áng chừng về chi phí. Để có con số cụ thể về executime, cần chạy lệnh sau:
+
+```roomsql
+    BEGIN;
+    EXPLAIN ANALYZE SELECT *  FROM engineer;
+    ROLLBACK;
+```
+- Ta có các thông số:
+- ![7.png](/img_guide/7.png)
