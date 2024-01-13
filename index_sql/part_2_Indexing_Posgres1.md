@@ -72,3 +72,33 @@ CREATE TABLE IF NOT EXISTS engineer
    + loops : số lượng vòng lặp
    + planning time : thời gian lên kế hoạch cho query 
    + execution time : actual_time (thời gian cho nhiệm vụ seq scan table)  + Thời gian fetch data để hiển thị
+
+- Thử query với đk WHERE:
+```roomsql
+  EXPLAIN SELECT *  FROM  ENGINEER WHERE COUNTRY_ID >= 100;
+```
+![8.png](/img_guide/8.png)
+   + Ta thấy vẫn là seq scan table nhưng thêm bước filter để lấy các country_id lớn hơn 1
+   + cost (số lượng tính toán cần để hoàn thành) đã tăng lên đến 11834, rows (số lượng rows cần để query) đã tăng lên đến 113906
+
+### 3. Indexing
+- Giả sử đánh index cho cột id:
+```roomsql
+    CREATE INDEX idx_enginneer_country_id ON ENGINEER(country_id);
+```
+- Sau khi đánh index xong, EXPLAIN  câu query sau:
+````roomsql
+    EXPLAIN SELECT * FROM ENGINEER WHERE COUNTRY_ID >=150;
+````
+- Ta có kết quả sau:
+  ![10.png](/img_guide/10.png)
+  + Ta thấy ở đây:
+    +  Query Scan sử dụng là : bitmap heap scan (chính là bitmap index)
+    + Executime giảm sấp xỉ 30% từ 1500 xuống 1000 ms
+    + Điều kiện >=100 ko xuất hện queryScan bitmap, Chỉ khi điều kiện >=150 mới xuất hiện bitmap scan
+    + Lý do là vì: Với điều kiện >= 100, có rất nhiều records phù hợp. Do đó query execution xác định rằng seq scan trên table chính còn nhanh hơn việc scan index trên table index rồi sau đó mất công look-up sang table chính
+    
+- Chốt lại: Relational Database có 3 loại index phổ biến:
+  + B-tree index
+  + Hash index
+  + Bitmap index
