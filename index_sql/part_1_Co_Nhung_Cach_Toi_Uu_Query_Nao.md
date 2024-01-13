@@ -1,4 +1,11 @@
-## Cách 1. Index:
+# Có những cách nào để tối ưu query
+
+## Cách 1: Scanning table
+- Là task cơ bản nhất của execution plan, Scan row từ đầu đến cuối, so sánh với các điều kiện và trả về kết quả
+- Các tính chất:
+    + 
+
+## Cách 2. Index:
 - Bản chất quá trình index là việc chuyển đổi một hoặc nhiều column sang table mới (Hệ thống sẽ quản lý table này)
 - Các tính chất:
     + Table index đc sắp xếp thứ tự, Giá trị của column là giá trị của một/nhiều column được đánh index
@@ -7,7 +14,7 @@
     + Có thể index nhiều cột một lúc
     + Index chỉ hiệu quả với những query có where condition trên column index
   
-## Cách 2: Partition
+## Cách 3: Partition
 -  Các tính chất:
    + Chia table thành các sub-table nhỏ hơn dựa trên các điều kiện tìm kiếm
    + Từ đó giảm không gian tìm kiếm -> Tốc đọ scanning nhanh hơn -> tăng performance khi query

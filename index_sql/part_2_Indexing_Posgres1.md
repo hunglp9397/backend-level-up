@@ -68,3 +68,7 @@ CREATE TABLE IF NOT EXISTS engineer
 ```
 - Ta có các thông số:
 - ![7.png](/img_guide/7.png)
+   + cost : số lượng tính toán cần để hoàn thành, Hiểu đơn giản là 0 đến 2117
+   + loops : số lượng vòng lặp
+   + planning time : thời gian lên kế hoạch cho query 
+   + execution time : actual_time (thời gian cho nhiệm vụ seq scan table)  + Thời gian fetch data để hiển thị
