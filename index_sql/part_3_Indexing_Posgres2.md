@@ -27,7 +27,7 @@ EXPLAIN ANALYZE SELECT * FROM ENGINEER WHERE first_name = 'Dominique' AND last_n
 ````
 ![13.png](/img_guide/13.png)
 - Plan có vẻ rắc rối hơn nhưng có index scan, execution time vẫn ổn. Đi qua plan chút xem nó hoạt động thế nào
-- Chú ý cách đọc plan sẽ đi từ trong ra ngoài, không phải từ trên xuống dưới:
+- _Chú ý cách đọc plan sẽ đi từ trong ra ngoài, không phải từ trên xuống dưới:_
   + Step đầu tiên dễ dàng nhận thấy là index scan với điều kiện first_name = Dominique trước, lọc ra đc 58 rows.
   + Sau đó thực hiện filter với cả 2 điều kiện first_name = Dominique và last_name LIKE %a%, loại bỏ được 43 rows.
   + Kết quả thu được 15 rows với thời gian chưa đến 1 ms.
